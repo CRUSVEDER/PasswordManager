@@ -116,15 +116,5 @@ Feel free to open issues or pull requests to improve the program or add addition
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-```
 
-### Notes on the README:
 
-1. **Project Description**: It provides a brief overview of the password vault manager and its capabilities.
-2. **Features**: A list of all available functions, such as managing passwords, generating new ones, and checking password strength.
-3. **Requirements**: Specifies the dependencies (like `cryptography`, `bcrypt`, etc.) and how to install them.
-4. **Setup**: Instructions for setting up the project.
-5. **Usage**: Walkthrough of how the program works and example commands for the user.
-6. **Security**: A note to emphasize secure practices (e.g., avoid hardcoding secrets).
-
-This README should give users enough information to understand how the program works, how to set it up, and how to use it securely.
