@@ -39,7 +39,7 @@ pip install cryptography bcrypt rich pyfiglet
 3. Run the script:
 
 ```bash
-python password_vault.py
+python password_manager.py
 ```
 
 ## How It Works
