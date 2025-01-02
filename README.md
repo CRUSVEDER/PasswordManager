@@ -82,25 +82,20 @@ Welcome to the Password Vault
 6. Create New Vault
 7. Switch Vault
 8. Show Vault Location
-9. Exit
+9. Generate a new password
+10. Check password strength
+11. Exit
 
 Choose an option:
 ```
 
-### Password Generator:
-
-```plaintext
-1. Generate a new password
-2. Check password strength
-3. Exit
-```
 
 ### Example Commands:
 
 - **Add a password**: `1`
 - **Retrieve a password**: `2`
-- **Generate a new password**: `1`
-- **Check password strength**: `2`
+- **Generate a new password**: `9`
+- **Check password strength**: `10`
 
 ## Security Considerations
 
