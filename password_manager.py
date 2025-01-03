@@ -45,7 +45,6 @@ def decrypt_data(key, encrypted_data):
         console.print(f"[red]Error decrypting data: {e}[/red]")
         raise ValueError("Decryption failed. Please check the master password and vault integrity.")
 
-
 def save_to_file(file_name, encrypted_data):
     with open(file_name, 'wb') as file:
         file.write(encrypted_data)
@@ -135,6 +134,51 @@ def view_services(vault_file, master_password):
         console.print("[bold red]Error retrieving services.[/bold red]")
         return []
 
+def edit_password(vault_file, master_password, service, new_password):
+    key = generate_key(master_password)
+    vault_data = load_from_file(vault_file)
+    
+    if not vault_data:
+        console.print("[bold red]No passwords stored yet.[/bold red]")
+        return
+
+    try:
+        vault = decrypt_data(key, vault_data)
+        vault_dict = json.loads(vault)
+        
+        if service in vault_dict:
+            encrypted_password = encrypt_data(key, new_password)
+            vault_dict[service] = encrypted_password.decode()
+            encrypted_vault = encrypt_data(key, json.dumps(vault_dict))
+            save_to_file(vault_file, encrypted_vault)
+            console.print("[green]Password updated successfully![/green]")
+        else:
+            console.print("[yellow]Service not found in vault.[/yellow]")
+    except Exception:
+        console.print("[bold red]Error editing password.[/bold red]")
+
+def delete_password(vault_file, master_password, service):
+    key = generate_key(master_password)
+    vault_data = load_from_file(vault_file)
+    
+    if not vault_data:
+        console.print("[bold red]No passwords stored yet.[/bold red]")
+        return
+
+    try:
+        vault = decrypt_data(key, vault_data)
+        vault_dict = json.loads(vault)
+        
+        if service in vault_dict:
+            del vault_dict[service]
+            encrypted_vault = encrypt_data(key, json.dumps(vault_dict))
+            save_to_file(vault_file, encrypted_vault)
+            console.print("[red]Password deleted successfully![/red]")
+        else:
+            console.print("[yellow]Service not found in vault.[/yellow]")
+    except Exception:
+        console.print("[bold red]Error deleting password.[/bold red]")
+
 # Password Generator and Checker
 def generate_password(length=12):
     if length < 6:
@@ -179,14 +223,16 @@ if __name__ == "__main__":
         table.add_row("1", "Add Password")
         table.add_row("2", "Retrieve Password")
         table.add_row("3", "View All Services")
-        table.add_row("4", "Rename Vault")
-        table.add_row("5", "Delete Vault")
-        table.add_row("6", "Create New Vault")
-        table.add_row("7", "Switch Vault")
-        table.add_row("8", "Show Vault Location")
-        table.add_row("9", "Generate Password")
-        table.add_row("10", "Check Password Strength")
-        table.add_row("11", "Exit")
+        table.add_row("4", "Edit Password")
+        table.add_row("5", "Delete Password")
+        table.add_row("6", "Rename Vault")
+        table.add_row("7", "Delete Vault")
+        table.add_row("8", "Create New Vault")
+        table.add_row("9", "Switch Vault")
+        table.add_row("10", "Show Vault Location")
+        table.add_row("11", "Generate Password")
+        table.add_row("12", "Check Password Strength")
+        table.add_row("13", "Exit")
         console.print(table)
 
         choice = Prompt.ask("[bold green]Choose an option[/bold green]")
@@ -211,18 +257,27 @@ if __name__ == "__main__":
                 console.print("[bold red]No services found in the vault.[/bold red]")
 
         elif choice == "4":
+            service = Prompt.ask("[bold yellow]Enter the service name[/bold yellow]")
+            new_password = Prompt.ask("[bold yellow]Enter the new password[/bold yellow]", password=True)
+            edit_password(vault_file, master_password, service, new_password)
+
+        elif choice == "5":
+            service = Prompt.ask("[bold yellow]Enter the service name[/bold yellow]")
+            delete_password(vault_file, master_password, service)
+
+        elif choice == "6":
             new_name = Prompt.ask("[bold yellow]Enter the new vault name[/bold yellow]")
             rename_vault(vault_file, new_name)
             vault_file = new_name
 
-        elif choice == "5":
+        elif choice == "7":
             delete_vault(vault_file)
 
-        elif choice == "6":
+        elif choice == "8":
             new_name = Prompt.ask("[bold yellow]Enter the new vault name[/bold yellow]")
             create_new_vault(new_name)
 
-        elif choice == "7":
+        elif choice == "9":
             new_name = Prompt.ask("[bold yellow]Enter the vault name to switch to[/bold yellow]")
             if os.path.exists(new_name):
                 vault_file = new_name
@@ -230,10 +285,10 @@ if __name__ == "__main__":
             else:
                 console.print("[red]Vault not found.[/red]")
 
-        elif choice == "8":
+        elif choice == "10":
             console.print(f"[cyan]Vault location: {os.path.abspath(vault_file)}[/cyan]")
 
-        elif choice == "9":
+        elif choice == "11":
             length = Prompt.ask("[bold yellow]Enter the desired password length[/bold yellow]", default="12")
             try:
                 length = int(length)
@@ -243,12 +298,12 @@ if __name__ == "__main__":
             except ValueError:
                 console.print("[red]Invalid input. Please enter a valid number.[/red]")
 
-        elif choice == "10":
+        elif choice == "12":
             password = Prompt.ask("[bold yellow]Enter the password to check[/bold yellow]")
             strength = check_password_strength(password)
             console.print(f"[bold cyan]Password strength:[/bold cyan] {strength}")
 
-        elif choice == "11":
+        elif choice == "13":
             console.print("[bold cyan]Goodbye![/bold cyan]")
             break
 
