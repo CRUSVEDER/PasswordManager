@@ -9,6 +9,8 @@ This is a simple Python-based password vault manager that allows you to securely
 - **Add Password**: Securely store passwords for various services.
 - **Retrieve Password**: Retrieve the hashed password for a specific service.
 - **View All Services**: List all stored services in the vault.
+- **Edit Password**: Edits the saved passwords.
+- **Delete Password**: Delete the saved passwords in the vault.
 - **Rename Vault**: Rename the vault file.
 - **Delete Vault**: Delete the entire vault.
 - **Create New Vault**: Create a new, separate vault file for password storage.
@@ -58,6 +60,8 @@ python password_manager.py
 - **Add Password**: Add a password for a service to the vault, where it's hashed and stored.
 - **Retrieve Password**: Retrieve the hashed password for a specific service.
 - **View All Services**: Show a list of all services currently stored in the vault.
+- **Edit Password**: Edits the saved passwords.
+- **Delete Password**: Delete the saved passwords in the vault.
 - **Rename Vault**: Rename the current vault file.
 - **Delete Vault**: Completely remove the vault and all stored data.
 - **Create New Vault**: Create a new vault file for a fresh start.
@@ -74,17 +78,20 @@ python password_manager.py
 
 ```plaintext
 Welcome to the Password Vault
-1. Add Password
-2. Retrieve Password Hash
-3. View All Services
-4. Rename Vault
-5. Delete Vault
-6. Create New Vault
-7. Switch Vault
-8. Show Vault Location
-9. Generate a new password
-10. Check password strength
-11. Exit
+1      Add Password            
+2      Retrieve Password       
+3      View All Services       
+4      Edit Password           
+5      Delete Password         
+6      Rename Vault            
+7      Delete Vault            
+8      Create New Vault        
+9      Switch Vault            
+10     Show Vault Location     
+11     Generate Password       
+12     Check Password Strength 
+13     Exit                    
+
 
 Choose an option:
 ```
