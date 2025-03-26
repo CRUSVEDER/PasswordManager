@@ -1,10 +1,14 @@
 import bcrypt
-from cryptography.fernet import Fernet
 import os
 import base64
 import json
 import random
 import string
+import pyfiglet
+import time
+import pyotp
+import qrcode 
+from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives.hashes import SHA256
 from cryptography.hazmat.backends import default_backend
@@ -12,13 +16,41 @@ from rich.console import Console
 from rich.table import Table
 from rich.prompt import Prompt
 from rich import print
-import pyfiglet
+
 
 # ASCII Art Header
 result = pyfiglet.figlet_format("CRUSVAULT", font="slant")
 print(f"[bold cyan]{result}[/bold cyan]")
 
 console = Console()
+
+
+#2FA System
+
+key = "myfirstcrusvault"
+  
+uri = pyotp.totp.TOTP(key).provisioning_uri( 
+    name='crusveder', 
+    issuer_name='crus') 
+  
+print(uri) 
+  
+# # Qr code generation step {use for only first time and comment out after generating qr code or else it will generate new qr each time}
+
+# qrcode.make(uri).save("qr.png") 
+# """Verifying stage starts"""
+
+
+totp = pyotp.TOTP(key) 
+  
+# verifying the code 
+while True: 
+    code = input("Enter the Code: ")
+    if totp.verify(code):
+        print("[green]2FA Verified Successfully![/green]")
+        break
+    else:
+        print("[red]Invalid Code. Try Again.[/red]")
 
 # Encryption Functions
 def generate_key(master_password):
