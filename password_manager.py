@@ -41,6 +41,7 @@ print(uri)
 # """Verifying stage starts"""
 
 
+
 totp = pyotp.TOTP(key) 
   
 # verifying the code 
